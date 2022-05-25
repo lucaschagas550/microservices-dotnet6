@@ -1,4 +1,7 @@
-﻿namespace GeekShopping.ProductAPI
+﻿using GeekShopping.ProductAPI.Model.Context;
+using Microsoft.EntityFrameworkCore;
+
+namespace GeekShopping.ProductAPI
 {
     public class Startup
     {
@@ -10,6 +13,13 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = Configuration["MySQLConnection:MySQLConnectionString"];
+
+            services.AddDbContext<MySqlContext>(options => options.
+                UseMySql(connection, 
+                    new MySqlServerVersion(
+                        new Version(8,0,28))));
+
             services.AddControllers();
 
             services.AddEndpointsApiExplorer();
