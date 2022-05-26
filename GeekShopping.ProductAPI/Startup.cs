@@ -1,4 +1,6 @@
-﻿using GeekShopping.ProductAPI.Model.Context;
+﻿using AutoMapper;
+using GeekShopping.ProductAPI.Config;
+using GeekShopping.ProductAPI.Model.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace GeekShopping.ProductAPI
@@ -19,6 +21,10 @@ namespace GeekShopping.ProductAPI
                 UseMySql(connection, 
                     new MySqlServerVersion(
                         new Version(8,0,28))));
+
+            IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllers();
 
