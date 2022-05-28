@@ -9,7 +9,7 @@ namespace GeekShopping.ProductAPI.Repository
     public class ProductRepository : IProductRepository
     {
         private readonly MySqlContext _context;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
 
         public ProductRepository(MySqlContext context, IMapper mapper)
         {
@@ -59,7 +59,7 @@ namespace GeekShopping.ProductAPI.Repository
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
