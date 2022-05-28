@@ -4,13 +4,15 @@ using System.Text.Json;
 
 namespace GeekShopping.Web.Utils
 {
+    //https://stackoverflow.com/questions/40027299/where-is-the-postasjsonasync-method-in-asp-net-core
+
     public static class HttpClientExtensions
     {
         private static MediaTypeHeaderValue contentType = new MediaTypeHeaderValue("application/json");
         
         public static async Task<T> ReadContentAs<T>(this HttpResponseMessage response)
         {
-            if (response.IsSuccessStatusCode) throw new ApplicationException($"Something went wrong calling the API : {response.ReasonPhrase}");
+            if (!response.IsSuccessStatusCode) throw new ApplicationException($"Something went wrong calling the API : {response.ReasonPhrase}");
 
             var dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
