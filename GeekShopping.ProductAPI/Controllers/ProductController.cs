@@ -9,11 +9,11 @@ namespace GeekShopping.ProductAPI.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private IProductRepository _productRepository;
+        private readonly IProductRepository _productRepository;
 
         public ProductController(IProductRepository productRepository)
         {
-            _productRepository = productRepository ?? throw  new 
+            _productRepository = productRepository ?? throw new
                 ArgumentNullException(nameof(productRepository));
         }
 
@@ -26,12 +26,45 @@ namespace GeekShopping.ProductAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductVO>> FindByid(long id)
+        public async Task<ActionResult<ProductVO>> FindById(long id)
         {
             var product = await _productRepository.FindById(id);
             if (product == null) return NotFound();
 
             return Ok(product);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ProductVO>> CreateProduct(ProductVO productVo)
+        {
+            if (productVo == null) return NotFound();
+
+            var product = await _productRepository.Create(productVo);
+
+            return Ok(product);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<ProductVO>> UpdateProduct(ProductVO productVo)
+        {
+            if (productVo == null) return NotFound();
+
+            var product = await _productRepository.Update(productVo);
+
+            return Ok(product);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ProductVO>> DeleteProduct(long id)
+        {
+            var status = await _productRepository.Delete(id);
+
+            if (!status)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
     }
 }
