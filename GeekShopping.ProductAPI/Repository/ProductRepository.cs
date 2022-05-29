@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics;
+using AutoMapper;
 using GeekShopping.ProductAPI.Data.ValueObjects;
 using GeekShopping.ProductAPI.Model;
 using GeekShopping.ProductAPI.Model.Context;
@@ -19,7 +20,7 @@ namespace GeekShopping.ProductAPI.Repository
 
         public async Task<IEnumerable<ProductVO>> FindAll()
         {
-            List<Product> products = await _context.Products.ToListAsync(); 
+            List<Product> products = await _context.Products.ToListAsync();
             return _mapper.Map<List<ProductVO>>(products);
         }
 
@@ -47,22 +48,13 @@ namespace GeekShopping.ProductAPI.Repository
             return _mapper.Map<ProductVO>(product);
         }
 
-        public async Task<bool> Delete(long id)
+        public async Task<ProductVO> Delete(long id)
         {
-            try
-            {
-                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id.Equals(id));
-                
-                if (product == null) return false;
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id.Equals(id));
 
-                _context.Products.Remove(product);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<ProductVO>(product);
         }
     }
 }
