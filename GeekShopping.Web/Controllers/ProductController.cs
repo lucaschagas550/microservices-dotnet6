@@ -26,7 +26,7 @@ namespace GeekShopping.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ProductUpdate(ProductModel product)
+        public async Task<IActionResult> ProductCreate(ProductModel product)
         {
             if (ModelState.IsValid)
             {
