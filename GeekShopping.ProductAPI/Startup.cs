@@ -43,6 +43,8 @@ namespace GeekShopping.ProductAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseHttpsRedirection();
+
             app.UseAuthorization();
 
             app.MapControllers();
