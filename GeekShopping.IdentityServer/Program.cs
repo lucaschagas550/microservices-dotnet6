@@ -1,3 +1,5 @@
+using GeekShopping.IdentityServer.Initializer;
+
 namespace GeekShopping.IdentityServer
 {
     public class Program
@@ -11,7 +13,10 @@ namespace GeekShopping.IdentityServer
 
             var app = builder.Build();
 
-            startup.Configure(app, app.Environment);
+            //Criando um scopo do serviço IDbInitializer e passando como parametro na startup
+            var dbInitialize = app.Services.CreateScope().ServiceProvider.GetService<IDbInitializer>();
+
+            startup.Configure(app, app.Environment, dbInitialize);
             app.Run();
         }
     }

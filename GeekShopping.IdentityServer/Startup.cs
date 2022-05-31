@@ -1,4 +1,5 @@
 ﻿using GeekShopping.IdentityServer.Configuration;
+using GeekShopping.IdentityServer.Initializer;
 using GeekShopping.IdentityServer.Model;
 using GeekShopping.IdentityServer.Model.Context;
 using Microsoft.AspNetCore.Identity;
@@ -40,10 +41,12 @@ namespace GeekShopping.IdentityServer
                 .AddInMemoryClients(IdentityConfiguration.Clients)
                 .AddAspNetIdentity<ApplicationUser>();
 
+            services.AddScoped<IDbInitializer, DbInitializer>();
+
             services.AddControllersWithViews();
         }
 
-        public void Configure(WebApplication app, IWebHostEnvironment env)
+        public void Configure(WebApplication app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (!app.Environment.IsDevelopment())
             {
@@ -56,6 +59,8 @@ namespace GeekShopping.IdentityServer
             app.UseRouting();
             app.UseIdentityServer(); //identity
             app.UseAuthorization();
+
+            dbInitializer.Initialize(); //Popula banco de dados a primeira vez com usuario admin e client
 
             app.MapControllerRoute(
                 name: "default",
