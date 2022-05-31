@@ -1,9 +1,12 @@
 ﻿using GeekShopping.Web.Models;
 using GeekShopping.Web.Services.IServices;
+using GeekShopping.Web.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeekShopping.Web.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -65,6 +68,7 @@ namespace GeekShopping.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> ProductDelete(ProductModel product)
         {
             var response = await _productService.DeleteProductById(product.Id);

@@ -1,11 +1,14 @@
 ﻿using GeekShopping.ProductAPI.Data.ValueObjects;
 using GeekShopping.ProductAPI.Repository;
+using GeekShopping.ProductAPI.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeekShopping.ProductAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -55,6 +58,7 @@ namespace GeekShopping.ProductAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult<ProductVO>> DeleteProduct(long id)
         {
             var product = await _productRepository.Delete(id);
