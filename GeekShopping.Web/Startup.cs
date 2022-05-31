@@ -29,7 +29,7 @@ namespace GeekShopping.Web
                 .AddCookie("Cookies", c => c.ExpireTimeSpan = TimeSpan.FromMinutes(10))
                 .AddOpenIdConnect("oidc", options =>
                     {
-                        options.Authority = Configuration["ServiceUrls:IdentityServer"]; //appsettings
+                        options.Authority = Configuration["ServicesUrls:IdentityServer"]; //appsettings
                         options.GetClaimsFromUserInfoEndpoint = true;
                         options.ClientId = "geek_shopping";
                         options.ClientSecret = "my_super_secret";
