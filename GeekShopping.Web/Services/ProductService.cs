@@ -15,7 +15,7 @@ namespace GeekShopping.Web.Services
             _client = client;
         }
 
-        public async Task<IEnumerable<ProductModel>> FindAllProduct(string token)
+        public async Task<IEnumerable<ProductModel>> FindAllProducts(string token)
         {
             //Add token no header da requisição
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);

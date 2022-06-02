@@ -20,7 +20,7 @@ namespace GeekShopping.Web.Controllers
         public async Task<IActionResult> ProductIndex()
         {
             var token = await HttpContext.GetTokenAsync("access_token");
-            var products = await _productService.FindAllProduct(token);
+            var products = await _productService.FindAllProducts(token);
             return View(products);
         }
 
