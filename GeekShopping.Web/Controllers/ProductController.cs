@@ -45,7 +45,7 @@ namespace GeekShopping.Web.Controllers
         public async Task<IActionResult> ProductUpdate(int id)
         {
             var token = await HttpContext.GetTokenAsync("access_token");
-            var product = await _productService.FindById(id, token);
+            var product = await _productService.FindProductById(id, token);
             if (product != null) return View(product);
 
             return NotFound();
@@ -67,7 +67,7 @@ namespace GeekShopping.Web.Controllers
         public async Task<IActionResult> ProductDelete(int id)
         {
             var token = await HttpContext.GetTokenAsync("access_token");
-            var product = await _productService.FindById(id, token);
+            var product = await _productService.FindProductById(id, token);
             if (product != null) return View(product);
 
             return NotFound();
