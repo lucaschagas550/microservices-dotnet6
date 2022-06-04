@@ -1,12 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using GeekShopping.CartAPI.Model.Base;
 
 namespace GeekShopping.CartAPI.Model
 {
     [Table("product")]
-    public class Product : BaseEntity
+    public class Product 
     {
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]//tenho que passar o ID, não é gerado com autoincremento
+        [Column("id")]
+        public long Id { get; set; }
+
         [Column("name")]
         [Required]
         [StringLength(150)]
