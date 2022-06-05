@@ -9,7 +9,7 @@ namespace GeekShopping.Web.Models
         public long ProductId { get; set; }
         public int Count { get; set; }
 
-        public CartHeaderViewModel CartHeaderVo { get; set; }
-        public ProductViewModel ProductVo { get; set; }
+        public CartHeaderViewModel CartHeader { get; set; }
+        public ProductViewModel Product { get; set; }
     }
 }
