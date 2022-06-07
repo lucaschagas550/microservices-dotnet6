@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics;
+using AutoMapper;
 using GeekShopping.CartAPI.Data.ValueObjects;
 using GeekShopping.CartAPI.Model;
 using GeekShopping.CartAPI.Model.Context;
@@ -43,9 +44,14 @@ namespace GeekShopping.CartAPI.Repository
             {
                 CartHeader = await _context.CartHeaders.FirstOrDefaultAsync(c => c.UserId == userId),
             };
-            cart.CartDetails = _context.CartDetails
-                                .Include(c => c.Product)
-                                .Where(c => c.CartHeaderId == cart.CartHeader.Id);
+
+            if (cart.CartHeader != null)
+            {
+                cart.CartDetails = _context.CartDetails
+                                    .Include(c => c.Product)
+                                    .Where(c => c.CartHeaderId == cart.CartHeader.Id);
+            }
+
             return _mapper.Map<CartVo>(cart);
         }
 
@@ -115,24 +121,48 @@ namespace GeekShopping.CartAPI.Repository
                 var cartDetail = await _context.CartDetails.AsNoTracking().FirstOrDefaultAsync(
                     p => p.ProductId == vo.CartDetails.FirstOrDefault().ProductId &&
                     p.CartHeaderId == cartHeader.Id);
+                try
+                {
+                    if (cartDetail == null)
+                    {
+                        //Create CartDetails
+                        //cart.CartDetails.FirstOrDefault().CartHeader.Id = cartHeader.Id;
+                        foreach (var item in cart.CartDetails)
+                        {
+                            item.CartHeader.Id = cartHeader.Id;
+                            item.CartHeaderId = cartHeader.Id;
+                            item.Product = null;
+                            _context.CartDetails.Update(item);
+                        }
 
-                if (cartDetail == null)
-                {
-                    //Create CartDetails
-                    cart.CartDetails.FirstOrDefault().CartHeaderId = cartHeader.Id;
-                    cart.CartDetails.FirstOrDefault().Product = null;
-                    _context.CartDetails.Add(cart.CartDetails.FirstOrDefault());
-                    await _context.SaveChangesAsync();
+                        //cart.CartDetails.FirstOrDefault().CartHeaderId = cartHeader.Id;
+                        //cart.CartDetails.FirstOrDefault().Product = null;
+                        //_context.CartDetails.Update(cart.CartDetails.FirstOrDefault());
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        //Update product count and CartDetails
+                        foreach (var item in cart.CartDetails)
+                        {
+                            item.CartHeader.Id = cartHeader.Id;
+                            item.Product = null;
+                            item.Count += cartDetail.Count;
+                            item.Id = cartDetail.Id;
+                            item.CartHeaderId = cartDetail.CartHeaderId;
+                            _context.CartDetails.Update(item);
+                        }
+                        //cart.CartDetails.FirstOrDefault().Product = null;
+                        //cart.CartDetails.FirstOrDefault().Count += cartDetail.Count;
+                        //cart.CartDetails.FirstOrDefault().Id = cartDetail.Id;
+                        //cart.CartDetails.FirstOrDefault().CartHeaderId = cartDetail.CartHeaderId;
+                        //_context.CartDetails.Update(cart.CartDetails.FirstOrDefault());
+                        await _context.SaveChangesAsync();
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    //Update product count and CartDetails
-                    cart.CartDetails.FirstOrDefault().Product = null;
-                    cart.CartDetails.FirstOrDefault().Count += cartDetail.Count;
-                    cart.CartDetails.FirstOrDefault().Id = cartDetail.Id;
-                    cart.CartDetails.FirstOrDefault().CartHeaderId = cartDetail.CartHeaderId;
-                    _context.CartDetails.Update(cart.CartDetails.FirstOrDefault());
-                    await _context.SaveChangesAsync();
+                    Debug.WriteLine(e.Message, e);
                 }
             }
             return _mapper.Map<CartVo>(cart);

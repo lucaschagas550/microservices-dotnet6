@@ -1,4 +1,4 @@
-﻿@model ProductViewModel
+﻿@model GeekShopping.Web.Models.ProductViewModel
 
 <form method="post">
     <input asp-for="Id" hidden/>
@@ -28,7 +28,7 @@
                                     <p class="text-secondary">@Html.Raw(Model.Description)</p>
                                 </div>
                             </div>
-                            <div class="row px-1">
+                            <div class="row px-4">
                                 <input asp-for="Count" class="form-control"/>
                                 <span asp-validation-for="Count" class="text-danger"></span>
                             </div>
@@ -38,8 +38,9 @@
             </div>
             <div class="card-footer row">
                 <div class="col-12 col-md-6 pb-1">
-                    <a class="btn btn-success btn-square form-control btn-lg" style="height:50px;">
-                        Back to List</a>
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-success btn-square form-control btn-lg" style="height:50px;">
+                        Back to List
+                    </a>
                 </div>
 
                 <div class="col-12 col-md-6">
