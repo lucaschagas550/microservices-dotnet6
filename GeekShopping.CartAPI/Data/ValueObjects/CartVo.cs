@@ -3,6 +3,6 @@
     public class CartVo
     {
         public CartHeaderVo CartHeader { get; set; }
-        public IEnumerable<CartDetailVo> CartDetails { get; set; }
+        public IEnumerable<CartDetailVo>? CartDetails { get; set; }
     }
 }
