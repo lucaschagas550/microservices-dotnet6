@@ -22,9 +22,9 @@ namespace GeekShopping.Web
                     c.BaseAddress = new Uri(Configuration["ServicesUrls:CartAPI"]) //appsettings
             );
 
-            //services.AddHttpClient<ICouponService, CouponService>(c =>
-            //        c.BaseAddress = new Uri(Configuration["ServicesUrls:CouponAPI"]) //appsettings
-            //);
+            services.AddHttpClient<ICouponService, CouponService>(c =>
+                    c.BaseAddress = new Uri(Configuration["ServicesUrls:CouponAPI"]) //appsettings
+            );
 
             services.AddControllersWithViews();
 
