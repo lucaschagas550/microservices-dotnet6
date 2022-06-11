@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GeekShopping.CouponAPI.Model.Context;
+using GeekShopping.CouponAPI.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -28,7 +29,7 @@ namespace GeekShopping.CouponAPI
             services.AddSingleton(mapper);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            //services.AddScoped<ICouponRepository, CouponRepository>();
+            services.AddScoped<ICouponRepository, CouponRepository>();
 
             services.AddControllers();
 
