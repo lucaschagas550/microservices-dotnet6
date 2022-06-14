@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.CouponAPI", "G
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{08219146-BA34-4132-8D4E-AEE2441B0DE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekShopping.MessageBus", "GeekShopping.MessageBus\GeekShopping.MessageBus.csproj", "{85198851-6F44-4EC4-BBE1-94B5DAF5C22B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekShopping.MessageBus", "GeekShopping.MessageBus\GeekShopping.MessageBus.csproj", "{85198851-6F44-4EC4-BBE1-94B5DAF5C22B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekShopping.OrderAPI", "GeekShopping.OrderAPI\GeekShopping.OrderAPI.csproj", "{0BF73A8F-D18D-4C7A-85E3-6D70187A5870}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{85198851-6F44-4EC4-BBE1-94B5DAF5C22B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85198851-6F44-4EC4-BBE1-94B5DAF5C22B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85198851-6F44-4EC4-BBE1-94B5DAF5C22B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BF73A8F-D18D-4C7A-85E3-6D70187A5870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BF73A8F-D18D-4C7A-85E3-6D70187A5870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BF73A8F-D18D-4C7A-85E3-6D70187A5870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BF73A8F-D18D-4C7A-85E3-6D70187A5870}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{20672181-1DEF-4368-8BE9-534ACA31F35B} = {E83C96E2-3BD4-4E5C-91AB-009A045F9D23}
 		{4FAB3764-01A1-4EBA-89CE-1F99214F8226} = {E83C96E2-3BD4-4E5C-91AB-009A045F9D23}
 		{85198851-6F44-4EC4-BBE1-94B5DAF5C22B} = {08219146-BA34-4132-8D4E-AEE2441B0DE5}
+		{0BF73A8F-D18D-4C7A-85E3-6D70187A5870} = {E83C96E2-3BD4-4E5C-91AB-009A045F9D23}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C82676AC-B080-4FD2-AA57-7170BE231C81}

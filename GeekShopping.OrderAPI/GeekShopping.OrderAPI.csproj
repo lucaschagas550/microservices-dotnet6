@@ -23,6 +23,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\GeekShopping.MessageBus\GeekShopping.MessageBus.csproj" />
-		<ProjectReference Include="..\GeekShopping.ProductAPI\GeekShopping.ProductAPI.csproj" />
 	</ItemGroup>
+
 </Project>
