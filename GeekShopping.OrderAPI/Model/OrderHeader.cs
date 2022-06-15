@@ -10,13 +10,13 @@ namespace GeekShopping.OrderAPI.Model
         public string UserId { get; set; }
 
         [Column("coupon_code")]
-        public string CouponCode { get; set; }
+        public string? CouponCode { get; set; }
 
         [Column("purchase_amount")]
         public decimal PurchaseAmount { get; set; }
 
         [Column("discount_amount")]
-        public decimal DiscountAmount { get; set; }
+        public decimal? DiscountAmount { get; set; }
 
         [Column("first_name")]
         public string FirstName { get; set; }
