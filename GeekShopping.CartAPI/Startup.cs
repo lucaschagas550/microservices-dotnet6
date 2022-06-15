@@ -38,7 +38,7 @@ namespace GeekShopping.CartAPI
             services.AddControllers();
 
             //HttpClient pq a informação será obtida de outra API, no caso do couponAPI
-            services.AddHttpClient<ICouponRepository, CouponRepository>(s => s.BaseAddress = new Uri(Configuration["ServiceUrls:CouponAPI"]));
+            services.AddHttpClient<ICouponRepository, CouponRepository>(s => s.BaseAddress = new Uri(Configuration["ServicesUrls:CouponAPI"]));
 
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
