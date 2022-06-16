@@ -34,7 +34,8 @@ namespace GeekShopping.OrderAPI
             services.AddSingleton(new OrderRepository(builder.Options));
             services.AddSingleton<IRabbitMQMessageSender, RabbitMQMessageSender>();
 
-            services.AddHostedService<RabbitMQCheckoutConsumer>(); //HostedSerivice pq ele implementa BackgroundService     
+            services.AddHostedService<RabbitMQCheckoutConsumer>(); //HostedSerivice pq ele implementa BackgroundService
+            services.AddHostedService<RabbitMQPaymentConsumer>();
 
             services.AddControllers();
 
