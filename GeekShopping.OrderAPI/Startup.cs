@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GeekShopping.OrderAPI.MessageConsumer;
 using GeekShopping.OrderAPI.Model.Context;
+using GeekShopping.OrderAPI.RabbitMQSender;
 using GeekShopping.OrderAPI.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -30,7 +31,8 @@ namespace GeekShopping.OrderAPI
                 new MySqlServerVersion(
                     new Version(8, 0, 5)));
 
-            services.AddSingleton(new OrderRepository(builder.Options));    
+            services.AddSingleton(new OrderRepository(builder.Options));
+            services.AddSingleton<IRabbitMQMessageSender, RabbitMQMessageSender>();
 
             services.AddHostedService<RabbitMQCheckoutConsumer>(); //HostedSerivice pq ele implementa BackgroundService     
 
