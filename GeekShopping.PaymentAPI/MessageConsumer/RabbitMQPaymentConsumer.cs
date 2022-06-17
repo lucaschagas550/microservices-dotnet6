@@ -1,11 +1,10 @@
-﻿using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System.Diagnostics;
-using System.Text;
-using System.Text.Json;
-using GeekShopping.PaymentAPI.Messages;
+﻿using GeekShopping.PaymentAPI.Messages;
 using GeekShopping.PaymentAPI.RabbitMQSender;
 using GeekShopping.PaymentProcessor;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text;
+using System.Text.Json;
 
 namespace GeekShopping.PaymentAPI.MessageConsumer
 {
@@ -15,10 +14,9 @@ namespace GeekShopping.PaymentAPI.MessageConsumer
         private IModel _channel;
         private IRabbitMQMessageSender _rabbitMQMessageSender;
         private readonly IProcessPayment _processPayment;
-        private const string ExchangeName = "FanoutPaymentUpdateExchange";
-        string queueName = "";
 
-        public RabbitMQPaymentConsumer(IProcessPayment processPayment, IRabbitMQMessageSender rabbitMQMessageSender)
+        public RabbitMQPaymentConsumer(IProcessPayment processPayment,
+            IRabbitMQMessageSender rabbitMQMessageSender)
         {
             _processPayment = processPayment;
             _rabbitMQMessageSender = rabbitMQMessageSender;
@@ -31,10 +29,7 @@ namespace GeekShopping.PaymentAPI.MessageConsumer
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
-
-            _channel.ExchangeDeclare(ExchangeName, ExchangeType.Fanout);
-            queueName = _channel.QueueDeclare().QueueName; //nome da fila gerado dinamicamente
-            _channel.QueueBind(queueName, ExchangeName, ""); //Bind da fila com a exchange
+            _channel.QueueDeclare(queue: "orderpaymentprocessqueue", false, false, false, arguments: null);
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -48,7 +43,7 @@ namespace GeekShopping.PaymentAPI.MessageConsumer
                 ProcessPayment(vo).GetAwaiter().GetResult();
                 _channel.BasicAck(evt.DeliveryTag, false);
             };
-            _channel.BasicConsume(queueName, false, consumer);
+            _channel.BasicConsume("orderpaymentprocessqueue", false, consumer);
             return Task.CompletedTask;
         }
 
@@ -65,12 +60,12 @@ namespace GeekShopping.PaymentAPI.MessageConsumer
 
             try
             {
+                //sempre verificar se tem algo nesta fila orderpaymentprocessqueue se tiver envia para processar o pagamento, enviando uma mensagem com paymentSender
                 _rabbitMQMessageSender.SendMessage(paymentResult);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Log
-                Debug.WriteLine(ex, ex.Message);
                 throw;
             }
         }
