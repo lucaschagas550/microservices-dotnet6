@@ -7,6 +7,7 @@ namespace GeekShopping.CouponAPI.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class CouponController : ControllerBase
     {
         private ICouponRepository _repository;
@@ -18,7 +19,6 @@ namespace GeekShopping.CouponAPI.Controllers
         }
 
         [HttpGet("{couponCode}")]
-        [Authorize]
         public async Task<ActionResult<CouponVo>> GetCouponByCouponCode(string couponCode)
         {
             var coupon = await _repository.GetCouponByCouponCode(couponCode);

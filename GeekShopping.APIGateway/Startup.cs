@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
 
 namespace GeekShopping.APIGateway
 {
@@ -29,16 +30,13 @@ namespace GeekShopping.APIGateway
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
-            if (app.Environment.IsDevelopment())
+
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.MapControllers();
+            app.UseOcelot();
         }
     }
 }
