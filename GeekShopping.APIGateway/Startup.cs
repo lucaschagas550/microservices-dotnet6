@@ -1,4 +1,7 @@
-﻿namespace GeekShopping.APIGateway
+﻿using Microsoft.IdentityModel.Tokens;
+using Ocelot.DependencyInjection;
+
+namespace GeekShopping.APIGateway
 {
     public class Startup
     {
@@ -11,18 +14,24 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "https://localhost:4435/";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
+                });
+
+            services.AddOcelot();
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GeekShopping.Email v1"));
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
